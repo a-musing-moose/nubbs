@@ -1,5 +1,4 @@
 import dataclasses
-import pathlib
 
 import invoke
 
@@ -89,10 +88,11 @@ def lint(ctx):
     stdout_captured = []
 
     # Need to collect the `stdout` during the command run in order to check
-    #  for specific error messages in the output
+    # for specific error messages in the output
+    #
     # UnexpectedExit doesn't hold the stdout, and could capture stdout to a
-    #  stream, but then if stdout and stderr both output they will not interpolate
-    #  correctly
+    # stream, but then if stdout and stderr both output they will not interpolate
+    # correctly
     class StreamInterceptor(invoke.watchers.StreamWatcher):
         def submit(self, stream):
             stdout_captured.append(stream)
@@ -162,12 +162,6 @@ def test(ctx, name="", verbose=False, suite=None):
     ctx.run(cmd, pty=True)
     if "--cov" in cmd:
         ctx.run("poetry run coverage html --show-contexts")
-        # ctx.run(
-        #     "poetry run diff-cover coverage.xml"
-        #     " --compare-branch=origin/main"
-        #     " --html-report diff-cover.html"
-        # )
-
 
 @invoke.task(typing, test, lint, security)
 def check(ctx):

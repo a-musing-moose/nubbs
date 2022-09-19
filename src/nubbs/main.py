@@ -31,7 +31,13 @@ class NuBBS(cmd.Cmd):
             )
 
     def get_names(self) -> list[str]:
-        """Return an alphabetized list of names comprising the attributes of the cmd2 class instance."""
+        """
+        Return an alphabetized list of names comprising the attributes of this instance
+
+        The default implementation of this method performs `dir` on the _class_. Since
+        we dynamically add commands this default approach does not work as the commands
+        are added to an instance not the class.
+        """
         return dir(self)
 
     def precmd(self, line: str) -> str:
